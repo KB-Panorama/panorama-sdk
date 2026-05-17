@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 
+# ********************************************************************
+# *                                                                  *
+# *              Copyright (c) PANORAMA Group 1991-2026              *
+# *                      All Rights Reserved                         *
+# *                                                                  *
+# ********************************************************************
+# *                                                                  *
+# *      Описание параметров функций визуализации произвольных       *
+# *             графических объектов электронной карты               *
+# *                                                                  *
+# ********************************************************************
+
 import ctypes
 import maptype
 
@@ -48,6 +60,7 @@ class PAINTEXAMPLEEX(ctypes.Structure):
                 ("Data",ctypes.POINTER(maptype.POLYDATAEX)),
                 ("Parm",ctypes.POINTER(ctypes.c_char)),
                 ("Text",maptype.PWCHAR),
+                ("Palette",ctypes.POINTER(maptype.COLORREF)),
                 ("Func",ctypes.c_int),
                 ("Local",ctypes.c_int),
                 ("Factor",ctypes.c_float),
@@ -831,3 +844,5 @@ class IMGSQUAREGLASSCOLOR(ctypes.Structure):
 #-----------------------------
 
 
+def mapgdi_healthcheck(): 
+    return 1

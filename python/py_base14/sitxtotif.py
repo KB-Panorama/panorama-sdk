@@ -10,8 +10,10 @@ from tkinter import filedialog
 def SaveSitxtoTif(filename, element) -> int:
     if filename is None:
         return 0
-
-    hmap = mapapi.mapOpenAnyDataPro(mapsyst.WTEXT(filename))
+    
+    empty_pass = mapsyst.WTEXT("") 
+    err = ctypes.c_int(0)
+    hmap = mapapi.mapOpenAnyDataPro(mapsyst.WTEXT(filename), 0, ctypes.byref(err), empty_pass, 0)
     if hmap == 0:
         return 0
 

@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
-import ctypes
+# ********************************************************************
+# *                                                                  *
+# *              Copyright (c) PANORAMA Group 1991-2026              *
+# *                      All Rights Reserved                         *
+# *                                                                  *
+# ********************************************************************
+# *                                                                  *
+# *               Описание базовых типов переменных                  *
+# *                                                                  *
+# ********************************************************************
 
+import os
+import ctypes
+import mapsyst
+
+WCHAR = ctypes.c_char
 WCHAR1 = ctypes.c_char # устанавливать размер массива в 2 раза больше вручную
 PWCHAR = ctypes.c_void_p # utf-16
 
@@ -9,39 +23,40 @@ MAX_PATH       = 260
 MAX_PATH_LONG  = 1024
 LF_FACESIZE    = 32
 
-HMAP         = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TMapAccess
-HSITE        = ctypes.c_void_p   # УКАЗАТЕЛЬ НА ЭЛЕМЕНТ ЦЕПОЧКИ
-HDATA        = ctypes.c_void_p   # УКАЗАТЕЛЬ НА ЛЮБОЙ ЭЛЕМЕНТ ДАННЫХ ЭЛЕКТРОННОЙ КАРТЫ
-HOBJ         = ctypes.c_longlong # УКАЗАТЕЛЬ НА TObjectInfo
-HSELECT      = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TMapSelect
-HRSC         = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TMapRsc
+HMAP         = ctypes.c_void_p   # Указатель на TMapAccess
+HSITE        = ctypes.c_void_p   # Указатель на элемент цепочки
+HDATA        = ctypes.c_void_p   # Указатель на любой элемент данных электронной карты
+HOBJ         = ctypes.c_longlong # Указатель на TObjectInfo
+HSELECT      = ctypes.c_void_p   # Указатель на TMapSelect
+HRSC         = ctypes.c_void_p   # Указатель на TMapRsc
 
-HPANACTION   = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TPanAction
-HMAPACTION   = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TUserAction
-HPANTASK     = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TPanTask
-HMAPTASK     = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TUserTask
-HMAPDOC      = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TMapWindow
-HOBJSET      = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TObjectSet
-HFORMULA     = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TStrFormula
+HPANACTION   = ctypes.c_void_p   # Указатель на TPanAction
+HMAPACTION   = ctypes.c_void_p   # Указатель на TUserAction
+HPANTASK     = ctypes.c_void_p   # Указатель на TPanTask
+HMAPTASK     = ctypes.c_void_p   # Указатель на TUserTask
+HMAPDOC      = ctypes.c_void_p   # Указатель на TMapWindow
+HOBJSET      = ctypes.c_void_p   # Указатель на TObjectSet
+HOBJLISTSEEK = ctypes.c_void_p   # Указатель на TSeekList
+HFORMULA     = ctypes.c_void_p   # Указатель на TStrFormula
 
-HMTR3D       = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TMtr3D
-HMTL3D       = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TMtr3D
-HCROSS       = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TObjectCut
-HCROSSPOINTS = ctypes.c_void_p   # УКАЗАТЕЛЬ НА КЛАСС ПОСТРОЕНИЯ ПЕРЕСЕЧЕНИЯ
-HCROSSCONS   = ctypes.c_void_p   # УКАЗАТЕЛЬ НА КЛАСС СМЕЖНЫХ УЧАСТКОВ
-HPOINT       = ctypes.c_void_p   # УКАЗАТЕЛЬ НА структуру CROSSPOINT
-HDRAW        = ctypes.c_void_p   # УКАЗАТЕЛЬ НА структуру TDrawEdit
-HPRINTER     = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TPrinter
-HVECT        = ctypes.c_void_p   # УКАЗАТЕЛЬ НА TVectorImageEdit
+HMTR3D       = ctypes.c_void_p   # Указатель на TMtr3D
+HMTL3D       = ctypes.c_void_p   # Указатель на TMtr3D
+HCROSS       = ctypes.c_void_p   # Указатель на TObjectCut
+HCROSSPOINTS = ctypes.c_void_p   # Указатель на класс построения пересечения
+HCROSSCONS   = ctypes.c_void_p   # Указатель на класс смежных участков
+HPOINT       = ctypes.c_void_p   # Указатель на структуру CROSSPOINT
+HDRAW        = ctypes.c_void_p   # Указатель на структуру TDrawEdit
+HPRINTER     = ctypes.c_void_p   # Указатель на TPrinter
+HVECT        = ctypes.c_void_p   # Указатель на TVectorImageEdit
 
-HIMAGE       = ctypes.c_void_p   # ИДЕНТИФИКАТОР TCopyImage
+HIMAGE       = ctypes.c_void_p   # Идентификатор TCopyImage
 
-HMAPREG      = ctypes.c_void_p   # ИДЕНТИФИКАТОР СПИСКА ПАРАМЕТРОВ СИСТЕМ ОТСЧЕТА
-HPAINT       = ctypes.c_void_p   # ИДЕНТИФИКАТОР TPaintControl
-HOVL         = ctypes.c_void_p   # ИДЕНТИФИКАТОР КЛАССА ОВЕРЛЕЙНЫХ ОПЕРАЦИЙ
+HMAPREG      = ctypes.c_void_p   # Идентификатор списка параметров систем отсчета
+HPAINT       = ctypes.c_void_p   # Идентификатор TPaintControl
+HOVL         = ctypes.c_void_p   # Идентификатор класса оверлейных операций
 HALS         = ctypes.c_void_p   # Идентификатор списка районов работ
 HEDTLINE     = ctypes.c_void_p   # Класс работы с линейкой шаблонов
-HWFS         = ctypes.c_void_p
+HWFS         = ctypes.c_void_p   # Идентификатор WFS-сервиса
 HGMLCLASS    = ctypes.c_void_p
 
 # callback - типы
@@ -152,6 +167,16 @@ ML_KAZAKH    = 6  # Казахский
 ML_VIETNAM   = 7  # Вьетнамский
 ML_CHINESE   = 8  # Китайский
 
+# РАЗМЕЩЕНИЕ ТОЧКИ ОТНОСИТЕЛЬНО ОТРЕЗКА
+PS_FIRST   = 1   #  Совпадает с первой точкой отрезка
+PS_SECOND  = 2   #  Совпадает со второй точкой отрезка
+PS_BEHIND  = 3   #  Лежит позади первой точки отрезка
+PS_BEYOND  = 4   #  Лежит впереди второй точки отрезка
+PS_BETWEEN = 5   #  Лежит на отрезке (между точками)
+PS_LEFT    = 6   #  Слева
+PS_RIGHT   = 7   #  Справа
+
+
 DWORD     = ctypes.c_uint
 COLORREF  = DWORD
 HMESSAGE  = ctypes.c_void_p
@@ -183,6 +208,7 @@ class LOGFONT(ctypes.Structure):
                 ("lfFaceName",WCHAR1*LF_FACESIZE)]
 #-----------------------------
 
+
 #-----------------------------
 class PALETTEENTRY(ctypes.Structure):
     _pack_ = PACK_WIDTH
@@ -191,6 +217,7 @@ class PALETTEENTRY(ctypes.Structure):
                 ("peBlue",ctypes.c_byte),
                 ("peFlags",ctypes.c_byte)]
 #-----------------------------
+
 
 #-----------------------------
 class POINT(ctypes.Structure):
@@ -233,12 +260,21 @@ class SYSTEMTIME(ctypes.Structure):
                 ("wMilliseconds",ctypes.c_ushort)]
 #-----------------------------
 
+
 #-----------------------------
 class LONGPOINT(ctypes.Structure):
     _pack_ = PACK_WIDTH
     _fields_ = [("X",ctypes.c_int),
                 ("Y",ctypes.c_int)]
 #-----------------------------
+
+
+#-----------------------------
+class BIGPOINT(ctypes.Structure):
+    _pack_ = PACK_WIDTH
+    _fields_ = [("X",ctypes.c_int64),
+                ("x",ctypes.c_int64)]
+#----------------------------- 
 
 
 #-----------------------------
@@ -786,6 +822,15 @@ class IMAGEFRAME(ctypes.Structure):
 
 
 #-----------------------------
+class PROGRESSBARSTATE(ctypes.Structure):
+    _pack_ = PACK_WIDTH
+    _fields_ = [("Ident",ctypes.c_void_p),
+                ("Percent",ctypes.c_int),
+                ("Reserve",ctypes.c_int)]
+#----------------------------- 
+
+
+#-----------------------------
 class TASKPARMEX(ctypes.Structure):
     _pack_ = PACK_WIDTH
     _fields_ = [("Handle",HMESSAGE),
@@ -830,6 +875,14 @@ class TMCUSERPARM(ctypes.Structure):
             self.Password = name
 
 #-----------------------------
+
+
+#-----------------------------
+class TMCUSERPARMUN(ctypes.Structure):
+    _pack_ = PACK_WIDTH
+    _fields_ = [("Name",WCHAR*(64)),
+                ("Password",ctypes.c_char*(64))]
+#----------------------------- 
 
 
 #-----------------------------
@@ -1483,6 +1536,20 @@ class SAVEMAPCOMPPARMUN(ctypes.Structure):
 
 
 #-----------------------------
+class SEEKDIALOGPARM(ctypes.Structure):
+    _pack_ = PACK_WIDTH
+    _fields_ = [("Distance",ctypes.c_double),
+                ("Handle",HMESSAGE),
+                ("Condition",ctypes.c_int),
+                ("Reserve",ctypes.c_int),
+                ("IsShowList1",ctypes.c_int),
+                ("IsShowList2",ctypes.c_int),
+                ("CrossType",ctypes.c_int),
+                ("SearchType",ctypes.c_int)]
+#-----------------------------
+
+
+#-----------------------------
 class OLELOADPARM(ctypes.Structure):
     _pack_ = PACK_WIDTH
     _fields_ = [("PosX",ctypes.c_double),
@@ -1620,6 +1687,7 @@ class BLOBSTRUCT(ctypes.Structure):
                 ("Zero",ctypes.c_int)]
 #-----------------------------
 
+
 #-----------------------------
 class ALSITEM(ctypes.Structure):
     _pack_ = PACK_WIDTH
@@ -1656,28 +1724,6 @@ class PROFBUILDPARM(ctypes.Structure):
 
 
 #-----------------------------
-class PROFBUILDPARMEX(ctypes.Structure):
-    _pack_ = PACK_WIDTH
-    _fields_ = [("Point",DOUBLEPOINT),
-                ("Object",HOBJ),
-                ("ProfStepVertical",ctypes.c_int),
-                ("ProfStepHorizontal",ctypes.c_int),
-                ("DeltaRight",ctypes.c_double),
-                ("DeltaCurrent",ctypes.c_double),
-                ("DeltaLeft",ctypes.c_double),
-                ("ColorProf",ctypes.c_int),
-                ("ColorLine",ctypes.c_int),
-                ("IsCurvatureEarth",ctypes.c_int),
-                ("IsMiddleHeight",ctypes.c_int),
-                ("IsLineFL",ctypes.c_int),
-                ("IsLineFCL",ctypes.c_int),
-                ("IsLineCross",ctypes.c_int),
-                ("IsLineNet",ctypes.c_int),
-                ("IsLineRelief",ctypes.c_int)]
-#-----------------------------
-
-
-#-----------------------------
 class TSQLMap_DBConnectParmEx_au1_as2(ctypes.Structure):
     _pack_ = PACK_WIDTH
     _fields_ = [("Host",WCHAR1*(256*2)),
@@ -1700,3 +1746,42 @@ class TSQLMap_DBConnectParmEx(ctypes.Structure):
 #-----------------------------
 
 
+#-----------------------------
+class FITTEXT(ctypes.Structure):
+    _pack_ = PACK_WIDTH
+    _fields_ = [("TextHeight",ctypes.c_double),
+                ("RectWidth",ctypes.c_double),
+                ("RectHeight",ctypes.c_double),
+                ("FactorWidth",ctypes.c_int),
+                ("Fitting",ctypes.c_int),
+                ("Interval",ctypes.c_int),
+                ("Error",ctypes.c_int),
+                ("CutTextToLines",ctypes.c_int),
+                ("TruncateLongText",ctypes.c_int),
+                ("Reserve",ctypes.c_int*(4))]
+#-----------------------------
+
+
+try:
+    if os.environ['gisaccesdll']:
+        gisaccesname = os.environ['gisaccesdll']
+except KeyError:
+    gisaccesname = 'gis64acces.dll'
+
+try:
+    curLib = mapsyst.LoadLibrary(gisaccesname)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Выдать сообщение об ошибке, code - код ошибки из maperr.rh
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    ErrorMessage_t = mapsyst.GetProcAddress(curLib,ctypes.c_void_p,'ErrorMessage', ctypes.c_int, ctypes.c_char_p)
+    def ErrorMessage(_code: int, _filename: ctypes.c_char_p) -> ctypes.c_void_p:
+        return ErrorMessage_t (_code, _filename)
+    
+except Exception as e:
+    print(e)
+    curLib = 0
+
+def maptype_healthcheck(): 
+    return 1

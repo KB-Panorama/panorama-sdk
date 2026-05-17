@@ -21,13 +21,14 @@
   <item path="saveobjectpoint.py" name="Save object coordinates in cm into a text file" image="saveobjectspoint.png" function="SaveObjectPoints" ident="10"/>
   <item path="saveboundary.py" name="List of border areas in the settlement into a text file"  image="saveboundary.png" function="SaveBoundaryList" ident="11"/>
   <item path="selectboundary.py" name="Select on the map the border areas in the settlement" image="selectboundary.png" function="SelectBoundary" ident="12"/>
+  <item path="thematicrosstat.py" name="Thematic mapping based on Rosstat data" function="RosstatThematic" image="thematicrosstat.png" ident="13"/>
  </node>
  <node name="Import/Export data">
-  <item path="miftomap.py" name="Import folder with MIF/MID files" image="miftomap.png" function="MifFolderToMap" ident="13"/>
-  <item path="sitxtotif.py" name="Save maps to TIF" image="sitxtotif.png" function="SitxToTif" ident="14"/>
-  <item path="rsc2sql.py" name="Generate an SQL file based on the map classifier" image="rsc2sql.png" function="GenerateSemanticsTable" ident="15"/>
+  <item path="miftomap.py" name="Import folder with MIF/MID files" image="miftomap.png" function="MifFolderToMap" ident="14"/>
+  <item path="sitxtotif.py" name="Save maps to TIF" image="sitxtotif.png" function="SitxToTif" ident="15"/>
+  <item path="rsc2sql.py" name="Generate an SQL file based on the map classifier" image="rsc2sql.png" function="GenerateSemanticsTable" ident="16"/>
  </node>
  <node name="Road graph calculations">
-  <item path="mindist.py" name="Finding the minimum distances between map objects" function="CalcMinDistances" image="mindist.png" ident="16"/>
+  <item path="mindist.py" name="Finding the minimum distances between map objects" function="CalcMinDistances" image="mindist.png" ident="17"/>
  </node>
 </pylist>

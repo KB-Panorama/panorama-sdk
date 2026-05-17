@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 
+# ********************************************************************
+# *                                                                  *
+# *              Copyright (c) PANORAMA Group 1991-2026              *
+# *                      All Rights Reserved                         *
+# *                                                                  *
+# ********************************************************************
+# *                                                                  *
+# *         Классификация параметров систем координат карты          *
+# *                                                                  *
+# ********************************************************************
+
 import ctypes
 import maptype
 
@@ -70,12 +81,13 @@ class LISTREGISTER(ctypes.Structure):
                 ("UpdateDate",ctypes.c_uint),
                 ("UpdateTime",ctypes.c_uint),
                 ("HeightSystem",ctypes.c_int),
-                ("Reserve",ctypes.c_char*16)]
+                ("Limit63Data",ctypes.c_uint),
+                ("Reserve",ctypes.c_char*12)]
 #-----------------------------
 
 
 #-----------------------------
-class MAPREGISTEREX(ctypes.Structure):
+class MAPREGISTER(ctypes.Structure):
     _pack_ = PACK_WIDTH
     _fields_ = [("Length",ctypes.c_int),
                 ("Name",ctypes.c_char*32),
@@ -97,16 +109,22 @@ class MAPREGISTEREX(ctypes.Structure):
                 ("FirstMainParallel",ctypes.c_double),
                 ("SecondMainParallel",ctypes.c_double),
                 ("AxisMeridian",ctypes.c_double),
-                ("MainPointParallel",ctypes.c_double),
-                ("PoleLatitude",ctypes.c_double),
+                ("MainPointParallel",ctypes.c_double)]
+#-----------------------------
+
+
+#-----------------------------
+class MAPREGISTEREX(MAPREGISTER):
+    _pack_ = PACK_WIDTH
+    _fields_ = [("PoleLatitude",ctypes.c_double),
                 ("PoleLongitude",ctypes.c_double),
                 ("FalseEasting",ctypes.c_double),
                 ("FalseNorthing",ctypes.c_double),
                 ("ScaleFactor",ctypes.c_double),
                 ("TurnAngle",ctypes.c_double),
-                ("Reserv2",ctypes.c_double*4)]
+                ("DataAxis",ctypes.c_double),
+                ("Reserv2",ctypes.c_double*3)]
 #-----------------------------
-
 
 
 #-----------------------------
@@ -218,3 +236,5 @@ class METAINFO(ctypes.Structure):
 #-----------------------------
 
 
+def mapcreat_healthcheck(): 
+    return 1
